@@ -38,3 +38,14 @@
 
 ### Connect MongoDB Session - https://www.npmjs.com/package/connect-mongodb-session
     npm i connect-mongodb-session
+
+### JsonWebToken - https://www.npmjs.com/package/jsonwebtoken
+
+    npm i jsonwebtoken
+
+# YET TO TEST
+
+1. Customer Login
+2. Customer refresh token
+3. Update User for Customer
+4. 
