@@ -40,7 +40,6 @@
     npm i connect-mongodb-session
 
 ### JsonWebToken - https://www.npmjs.com/package/jsonwebtoken
-
     npm i jsonwebtoken
 
 # YET TO TEST
@@ -49,3 +48,7 @@
 2. Customer refresh token
 3. Update User for Customer
 4. 
+
+# EXPLORE/EXPERIMENT
+
+1. Use custom ID, instead of mongoId or handle invalid mongoID (length != 24)
