@@ -28,7 +28,7 @@ export const getProductsByCategoryId = async (req, res) => {
             .exec();
 
         return res.send({
-            message: 'Successfully fetched products',
+            message: `Successfully fetched products for ${category.name}`,
             category,
             products,
         });
@@ -37,7 +37,7 @@ export const getProductsByCategoryId = async (req, res) => {
             error: {
                 code: 'unknownError',
                 message: 'Failed to fetch categories',
-                description: err,
+                description: err.message,
             }
         });
     }

@@ -32,8 +32,8 @@ const orderSchema = new mongoose.Schema({
         address: {type: String},
     },
     deliveryPartnerLocation: {
-        latitude: {type: Number, required: true},
-        longitude: {type: Number, required: true},
+        latitude: {type: Number},
+        longitude: {type: Number},
         address: {type: String},
     },
     status: {
@@ -42,8 +42,8 @@ const orderSchema = new mongoose.Schema({
         default: 'available',
     },
     totalPrice: {type: Number, required: true},
-    createdAt: {type: Date, required: Date.now},
-    updatedAt: {type: Date, required: Date.now},
+    createdAt: {type: Date, default: Date.now},
+    updatedAt: {type: Date, default: Date.now},
 });
 
 async function getNextSequenceValue(sequenceName) {

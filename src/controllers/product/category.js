@@ -12,7 +12,7 @@ export const getAllCategories = async (req, res) => {
             error: {
                 code: 'unknownError',
                 message: 'Failed to fetch categories',
-                description: err,
+                description: err.message,
             }
         });
     }

@@ -49,6 +49,9 @@
 3. Update User for Customer
 4. 
 
-# EXPLORE/EXPERIMENT
+# EXPLORE/EXPERIMENT/IMPROVEMENTS
 
 1. Use custom ID, instead of mongoId or handle invalid mongoID (length != 24)
+2. Register/Create new delivery partner, admin
+3. Create new category, product
+4. While placing order, price must be calculated in server (order.js -> createOrder())

@@ -8,6 +8,9 @@ export const createOrder = async (req, res) => {
         const customerData = await Customer.findById(userId);
         const branchData = await Branch.findById(branch);
 
+        // console.log('deliveryPartner location:', customerData.liveLocation);
+        // console.log('branchData location:', branchData.liveLocation);
+
         if (!customerData) {
             return res.status(404).send({
                 error: {
@@ -49,7 +52,7 @@ export const createOrder = async (req, res) => {
             error: {
                 code: 'unknownError',
                 message: 'Failed to create order',
-                description: err,
+                description: err.message,
             }
         });
     }
@@ -57,9 +60,11 @@ export const createOrder = async (req, res) => {
 
 export const confirmOrder = async (req, res) => {
     try {
-        const {orderId} = req.params;
+        const {orderId} = req.query;
         const {userId} = req.user;
         const {deliveryPersonLocation} = req.body;
+
+        console.log(orderId);
 
         const deliveryPartner = await DeliveryPartner.findById(userId);
         if (!deliveryPartner) {
@@ -101,7 +106,7 @@ export const confirmOrder = async (req, res) => {
         const updatedOrder = await order.save();
 
         return res.status(200).send({
-            message: 'Order successfully confirmeed',
+            message: 'Order successfully confirmed',
             updatedOrder,
         });
     } catch (err) {
@@ -109,7 +114,7 @@ export const confirmOrder = async (req, res) => {
             error: {
                 code: 'unknownError',
                 message: 'Failed to confirm order',
-                description: err,
+                description: err.message,
             }
         });
     }
@@ -117,9 +122,18 @@ export const confirmOrder = async (req, res) => {
 
 export const updateOrderStatus = async (req, res) => {
     try {
-        const {orderId} = req.params;
+        const {orderId} = req.query;
         const {userId} = req.user;
         const {status, deliveryPersonLocation} = req.body;
+
+        if (!['available', 'confirmed', 'arriving', 'delivered', 'cancelled'].includes(status)) {
+            return res.status(400).send({
+                error: {
+                    code: 'invalidStatus',
+                    message: 'Order status is invalid'
+                }
+            });
+        }
 
         const deliveryPartner = await DeliveryPartner.findById(userId);
         if (!deliveryPartner) {
@@ -170,12 +184,81 @@ export const updateOrderStatus = async (req, res) => {
             error: {
                 code: 'unknownError',
                 message: 'Failed to update order status',
-                description: err,
+                description: err.message,
             }
         });
     }
 }
 
-export const getOrders = (req, res) => {
+export const getOrders = async (req, res) => {
+    try {
+        const {status, customerId, deliveryPartnerId, branchId} = req.query;
+        let query = {};
+        if (status) {
+            query.status = status;
+        }
+        if (customerId) {
+            query.customer = customerId;
+        }
+        if (deliveryPartnerId) {
+            query.deliveryPartner = deliveryPartnerId;
+        }
+        if (branchId) {
+            query.branch = branchId;
+        }
 
+        const orders = await Order.find(query).populate('customer branch items.item deliveryPartner');
+        return res.status(200).send({
+            message: 'Orders successfully fetched',
+            count: orders.length,
+            orders,
+        });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).send({
+            error: {
+                code: 'unknownError',
+                message: 'Failed to fetch orders',
+                description: err.message,
+            }
+        });
+    }
+}
+
+export const getOrderById = async (req, res) => {
+    try {
+        const {orderId} = req.query;
+
+        if (!orderId) {
+            return res.status(400).send({
+                error: {
+                    code: 'invalidOrderId',
+                    message: 'OrderId is required'
+                }
+            });
+        }
+
+        const order = await Order.findById(orderId);
+        if (!order) {
+            return res.status(404).send({
+                error: {
+                    code: 'orderNotFound',
+                    message: 'Order not found'
+                }
+            });
+        }
+
+        return res.status(200).send({
+            message: 'Order successfully fetched',
+            order,
+        });
+    } catch (err) {
+        return res.status(500).send({
+            error: {
+                code: 'unknownError',
+                message: 'Failed to fetch order',
+                description: err.message,
+            }
+        });
+    }
 }

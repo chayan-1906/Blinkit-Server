@@ -38,7 +38,7 @@ export const loginCustomer = async (req, res) => {
             error: {
                 code: 'unknownError',
                 message: 'Customer login failed',
-                description: err,
+                description: err.message,
             }
         });
     }
@@ -83,7 +83,7 @@ export const loginDeliveryPartner = async (req, res) => {
             error: {
                 code: 'unknownError',
                 message: 'Delivery Partner login failed',
-                description: err,
+                description: err.message,
             }
         });
     }
@@ -151,7 +151,7 @@ export const refreshToken = async (req, res) => {
             error: {
                 code: 'unknownError',
                 message: 'Invalid Refresh Token',
-                description: err,
+                description: err.message,
             }
         });
     }
@@ -196,7 +196,7 @@ export const fetchUser = async (req, reply) => {
             error: {
                 code: 'unknownError',
                 message: 'An error occurred',
-                description: err,
+                description: err.message,
             }
         });
     }

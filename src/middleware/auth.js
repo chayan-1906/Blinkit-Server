@@ -5,7 +5,12 @@ export const verifyToken = async (req, res) => {
     try {
         const authHeader = req.headers['authorization'];
         if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return res.status(401).send('Access token required');
+            return res.status(401).send({
+                error: {
+                    code: 'missingAccessToken',
+                    message: 'Access token required',
+                }
+            });
         }
 
         const token = authHeader.split(' ')[1];
