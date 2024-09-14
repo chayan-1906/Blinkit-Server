@@ -42,6 +42,14 @@
 ### JsonWebToken - https://www.npmjs.com/package/jsonwebtoken
     npm i jsonwebtoken
 
+### Fastify Socket IO - https://www.npmjs.com/package/fastify-socket.io
+
+    npm i fastify-socket.io
+
+### Socket IO - https://www.npmjs.com/package/socket.io
+
+    npm i socket.io
+
 # YET TO TEST
 
 1. Customer Login
