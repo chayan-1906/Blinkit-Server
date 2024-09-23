@@ -2,8 +2,8 @@ import {authRoutes} from "./auth.js";
 import {categoryRoutes, productRoutes} from "./product.js";
 import {orderRoutes} from "./order.js";
 
-// const prefix = '/api';
-const prefix = '/';
+const prefix = '/api';
+// const prefix = '/';
 
 export const registerRoutes = async (fastify) => {
     fastify.register(authRoutes, {prefix: prefix});
