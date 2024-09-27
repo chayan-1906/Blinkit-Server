@@ -14,6 +14,7 @@ const generateToken = (user) => {
 }
 
 export const loginCustomer = async (req, res) => {
+    console.log('loginCustomer called 🔑', req.body);
     try {
         const {phoneNumber} = req.body;
 
@@ -27,6 +28,8 @@ export const loginCustomer = async (req, res) => {
 
         const {accessToken, refreshToken} = generateToken(customer);
 
+        console.log('success in loginCustomer ✅: accessToken -', accessToken);
+        console.log('success in loginCustomer ✅: refreshToken -', refreshToken);
         return res.send({
             message: customer ? 'Login Successful' : 'Customer created and logged in',
             accessToken,
@@ -34,6 +37,7 @@ export const loginCustomer = async (req, res) => {
             customer,
         });
     } catch (err) {
+        console.log('err in loginCustomer ❌', err);
         return res.status(500).send({
             error: {
                 code: 'unknownError',
@@ -45,6 +49,7 @@ export const loginCustomer = async (req, res) => {
 }
 
 export const loginDeliveryPartner = async (req, res) => {
+    console.log('loginDeliveryPartner called 🔑', req.body);
     try {
         const {email, password} = req.body;
 
@@ -72,6 +77,8 @@ export const loginDeliveryPartner = async (req, res) => {
 
         const {accessToken, refreshToken} = generateToken(deliveryPartner);
 
+        console.log('success in loginDeliveryPartner ✅: accessToken -', accessToken);
+        console.log('success in loginDeliveryPartner ✅: refreshToken -', refreshToken);
         return res.send({
             message: 'Login Successful',
             deliveryPartner,
@@ -79,6 +86,7 @@ export const loginDeliveryPartner = async (req, res) => {
             refreshToken,
         });
     } catch (err) {
+        console.log('err in loginDeliveryPartner ❌', err);
         return res.status(500).send({
             error: {
                 code: 'unknownError',
@@ -90,6 +98,7 @@ export const loginDeliveryPartner = async (req, res) => {
 }
 
 export const refreshToken = async (req, res) => {
+    console.log('refreshToken called 🔑', req.body);
     const {refreshToken} = req.body;
     /** missing refresh token */
     if (!refreshToken) {
@@ -147,6 +156,7 @@ export const refreshToken = async (req, res) => {
             refreshToken: newRefreshToken,
         });
     } catch (err) {
+        console.log('err in refreshToken ❌', err);
         return res.status(403).send({
             error: {
                 code: 'unknownError',
@@ -158,6 +168,7 @@ export const refreshToken = async (req, res) => {
 }
 
 export const fetchUser = async (req, reply) => {
+    console.log('fetchUser called 🔑', req.user);
     try {
         console.log('fetchUser: req.user -', req.user);
         const {userId, role} = req.user;
@@ -187,11 +198,13 @@ export const fetchUser = async (req, reply) => {
             });
         }
 
+        console.log('user found ✅:', user);
         return reply.status(200).send({
             message: 'User fetched successfully',
             user,
         });
     } catch (err) {
+        console.log('err in fetchUser ❌', err);
         return reply.status(500).send({
             error: {
                 code: 'unknownError',
