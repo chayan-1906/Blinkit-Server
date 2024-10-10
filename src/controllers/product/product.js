@@ -1,6 +1,7 @@
 import {Category, Product} from "../../models/index.js";
 
 export const getProductsByCategoryId = async (req, res) => {
+    console.log('getProductsByCategoryId 🔑 called with categoryId:', req.query.categoryId);
     try {
         const {categoryId} = req.query;
 
@@ -27,6 +28,7 @@ export const getProductsByCategoryId = async (req, res) => {
             .select('-category')    // meaning - skip category object from product object in response
             .exec();
 
+        console.log(`products fetched for ${category.name} ✅`, products);
         return res.send({
             message: `Successfully fetched products for ${category.name}`,
             category,
